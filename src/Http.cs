@@ -106,6 +106,28 @@ namespace ManagedFusion.Testing
 			return request;
 		}
 
+		public static HttpRequestBase SetInputStream(this HttpRequestBase request, string inputStream)
+		{
+			var ms = new MemoryStream(inputStream.Length * 2);
+
+			var sw = new StreamWriter(ms);
+			sw.Write(inputStream);
+			sw.Flush();
+
+			ms.Position = 0;
+
+			return SetInputStream(request, ms);
+		}
+
+		public static HttpRequestBase SetInputStream(this HttpRequestBase request, Stream inputStream)
+		{
+			var mock = Mock.Get(request);
+
+			mock.SetupGet(req => req.InputStream).Returns(inputStream);
+
+			return request;
+		}
+	
 		public static HttpRequestBase SetServerVariables(this HttpRequestBase request, IDictionary<string, string> values = null)
 		{
 			if (values == null)
