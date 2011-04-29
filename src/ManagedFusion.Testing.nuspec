@@ -2,17 +2,25 @@
 <package>
 	<metadata>
 		<id>ManagedFusion.Testing</id>
-		<version>1.0.0</version>
+		<version>$version$</version>
 		<title>Managed Fusion Testing Framework</title>
 		<authors>Nick Berardi</authors>
-		<owners>nberardi</owners>
+		<owners>Managed Fusion, LLC</owners>
 		<description>Managed Fusion Testing Framework contains common mocking senarios that help setup tests</description>	
 		<summary>Managed Fusion Testing Framework contains common mocking senarios that help setup tests.</summary>
 		<language>en-US</language>
 		<projectUrl>https://github.com/managedfusion/managedfusion-testing</projectUrl>
-		<licenseUrl>https://github.com/managedfusion/managedfusion/raw/master/LICENSE.txt</licenseUrl>
+		<licenseUrl>https://github.com/managedfusion/managedfusion-testing/raw/master/LICENSE.txt</licenseUrl>
 		<iconUrl>https://github.com/managedfusion/managedfusion-testing/raw/master/nuget/ManagedFusion.Logo.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<tags>managedfusion testing nunit msunit xunit mock moq .net35 .net40</tags>
+		<dependencies>
+			<dependency id="Moq" version="(4.0,)" />
+		</dependencies>
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="System.Web" targetFramework="net40" />
+			<frameworkAssembly assemblyName="System.Web.Mvc" targetFramework="net40" />
+			<frameworkAssembly assemblyName="MIcrosoft.CSharp" targetFramework="net40" />
+		</frameworkAssemblies>
 	</metadata>
 </package>
