@@ -18,11 +18,14 @@ namespace ManagedFusion.Testing
 			var response = new Mock<HttpResponseBase>();
 			var session = new Mock<HttpSessionStateBase>();
 			var server = new Mock<HttpServerUtilityBase>();
-			var headers = new Mock<NameValueCollection>();
+			var genericCollection = new Mock<NameValueCollection>();
 			var items = new Mock<IDictionary>();
 
 			response.SetupAllProperties();
-			request.SetupGet(x => x.Headers).Returns(headers.Object);
+			request.SetupGet(x => x.Headers).Returns(genericCollection.Object);
+			request.SetupGet(x => x.QueryString).Returns(genericCollection.Object);
+			request.SetupGet(x => x.Form).Returns(genericCollection.Object);
+			request.SetupGet(x => x.ServerVariables).Returns(genericCollection.Object);
 
 			context.SetupGet(x => x.Items).Returns(items.Object);
 			context.SetupGet(x => x.Request).Returns(request.Object);
@@ -86,6 +89,38 @@ namespace ManagedFusion.Testing
 
 			mock.SetupGet(req => req.QueryString).Returns(GetQueryStringParameters(url));
 			mock.SetupGet(req => req.Url).Returns(url);
+
+			return request;
+		}
+
+		public static HttpRequestBase SetQueryString(this HttpRequestBase request, IDictionary<string, string> values = null)
+		{
+			if (values == null)
+				values = new Dictionary<string, string>();
+
+			var mock = Mock.Get(request);
+
+			var queryString = new NameValueCollection();
+			foreach (var v in values)
+				queryString.Add(v.Key, v.Value);
+
+			mock.SetupGet(req => req.QueryString).Returns(queryString);
+
+			return request;
+		}
+
+		public static HttpRequestBase SetForm(this HttpRequestBase request, IDictionary<string, string> values = null)
+		{
+			if (values == null)
+				values = new Dictionary<string, string>();
+
+			var mock = Mock.Get(request);
+
+			var form = new NameValueCollection();
+			foreach (var v in values)
+				form.Add(v.Key, v.Value);
+
+			mock.SetupGet(req => req.Form).Returns(form);
 
 			return request;
 		}
